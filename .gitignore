@@ -1,0 +1,38 @@
+# Dependency directories
+/node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*.local
+.env.local
+
+# Build artifacts
+/dist
+/build
+/out
+
+# Editor/OS specific files
+.DS_Store
+Thumbs.db
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Test reports
+/coverage
+
+# IDE-specific files (e.g., WebStorm)
+.idea/
+
+# Other temporary files
+*.log
+*.tmp
+
+test.js
+tests
