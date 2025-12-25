@@ -1,6 +1,4 @@
 require('dotenv').config();
-const { setDefaultResultOrder } = require("node:dns");
-setDefaultResultOrder("ipv6first");
 const { QueueEvents } = require('bullmq');
 const { Telegraf } = require('telegraf');
 const { message } = require('telegraf/filters');
