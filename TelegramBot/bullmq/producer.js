@@ -7,7 +7,7 @@ const queueConnection = new IORedis({
   port: process.env.REDIS_PORT || 6379,
   password: process.env.REDIS_PASSWORD || undefined,
   maxRetriesPerRequest: null,
-  tls: {} // if required for redis or valkey sertificate issue
+  tls: {} // if required for redis or valkey certificate issue
 });
 
 module.exports.getConnection=()=>{

@@ -14,6 +14,6 @@ module.exports = async (fileName) => {
         });
         return response;
     } catch (error) {
-        console.log('ohhhh Error During PAR Creation',error);
+        console.log('Error During PAR Creation',error);
     }
 }

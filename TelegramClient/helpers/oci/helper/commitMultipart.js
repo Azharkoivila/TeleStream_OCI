@@ -13,7 +13,7 @@ module.exports = async (fileName, uploadId, parts) => {
                 partsToCommit: parts
             }
         });
-        console.log("File Commit sucsess")
+        console.log("File Commit success")
     } catch (error) {
         console.log("error during file Commit",error)
     }

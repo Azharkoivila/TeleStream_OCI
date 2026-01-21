@@ -4,7 +4,7 @@ const { Worker } = require('bullmq');
 const { TelegramClient, } = require("telegram");
 const { StringSession } = require("telegram/sessions");
 const input = require("input"); // npm i input
-const StreemFile = require('./helpers/telegram/fileStreem');
+const StreamFile = require('./helpers/telegram/fileStream');
 const fetchMedia = require('./helpers/telegram/fetchMedia')
 
 //BullMq Redis Connction
@@ -13,7 +13,7 @@ const workerConnection = new IORedis({
   port: process.env.REDIS_PORT || 6379,
   password: process.env.REDIS_PASSWORD || undefined,
   maxRetriesPerRequest: null,
-  tls: {} // if required for redis or valkey sertificate issue
+  tls: {} // if required for redis or valkey certificate issue
 });
 // TELEGRAM SESSION
 const stringSession = new StringSession(process.env.SESSION_ID); // fill this later with the value from session.save()
@@ -42,7 +42,7 @@ module.exports.TgInit = async () => {
     const messages = await client.getMessages(process.env.TG_GROUP_ID, { ids: [job.data.message] });
 
     const { fileName, target } = await fetchMedia(messages)
-    const par = await StreemFile(client, target, fileName, job, { user_id: job.data.user_id });
+    const par = await StreamFile(client, target, fileName, job, { user_id: job.data.user_id });
     return { status: 'completed', par, user_id: job.data.user_id };
   }, {
     connection: workerConnection,

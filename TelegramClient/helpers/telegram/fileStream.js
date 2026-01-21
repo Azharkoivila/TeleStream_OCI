@@ -1,19 +1,19 @@
 require('dotenv').config();
 const fs = require('fs');
-const getOciMulipartId = require('../oci/helper/initMultipart');
+const getOciMultipartId = require('../oci/helper/initMultipart');
 const oci = require('../oci/client/ociClient');
 const ociCommitPart= require('../oci/helper/commitMultipart');
-const genaratePAR = require('../oci/helper/genaratePAR');
+const generatePAR = require('../oci/helper/generatePAR');
 
-module.exports = async function StreemData(client, target, fileName, job, { user_id }) {
+module.exports = async function StreamData(client, target, fileName, job, { user_id }) {
   try {
-    // buffer downlod for samall files
+    // buffer download for small files
     // const buffer = await client.downloadMedia(event.message.media||event.message.file, {
     //         workers: 1,
     //     });
 
     // FetchMultipart OCI ID
-    const uploadId = await getOciMulipartId(fileName);
+    const uploadId = await getOciMultipartId(fileName);
     if(!uploadId) throw new Error('cannot find multipartId please Check OCI');
     const parts = [];
     let partNum = 1;
@@ -22,7 +22,7 @@ module.exports = async function StreemData(client, target, fileName, job, { user
       file: target,
       requestSize: 1 * 1024 * 1024,   // define chunk you want
     })) {
-      // fs.appendFileSync(`img${Date.now()}.jpeg`, chunk);    if you want write directly todisk 
+      // fs.appendFileSync(`img${Date.now()}.jpeg`, chunk);    if you want write directly to disk 
       // iterfetch and upload
       const res = await oci.getClient().uploadPart({
         namespaceName: process.env.OCI_NAMESPACE,
@@ -36,15 +36,15 @@ module.exports = async function StreemData(client, target, fileName, job, { user
       console.log("uploaded :", partNum);
       partNum++;
     }
-    //commiting all parts
+    //committing all parts
     await ociCommitPart(fileName, uploadId, parts);
 
-    await job.updateProgress({ user_id, progress: 'Upload Compleate And Genarating Link' });
-    // genarate PAR
-    const par = await genaratePAR(fileName);
+    await job.updateProgress({ user_id, progress: 'Upload Complete And Generating Link' });
+    // generate PAR
+    const par = await generatePAR(fileName);
     return `${process.env.OCI_BASE_PAR_URL}${par.preauthenticatedRequest.accessUri}`;
   } catch (error) {
-    console.log("error in file streem", error);
+    console.log("error in file stream", error);
     process.exit(1);
   }
 }

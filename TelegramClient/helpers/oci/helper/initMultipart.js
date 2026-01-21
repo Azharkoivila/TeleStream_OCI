@@ -1,7 +1,7 @@
 require('dotenv').config()
 const oci = require('../client/ociClient');
 
-module.exports = async function getOciMulipartId(fileName) {
+module.exports = async function getOciMultipartId(fileName) {
   try {
 
     const id = await oci.getClient().createMultipartUpload({
